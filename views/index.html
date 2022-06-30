@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ChartJS Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+<body class="bg-success">
+    <div class="col-8 offset-2 my-5">
+        <div class="card">
+            <div class="card-body">
+                <h4>My first chart...</h4>
+                <hr>
+                <div>
+                    <canvas id="bar_chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+
+        let labels, values;
+
+        $(document).ready(function () {
+            $.ajax({
+                type: 'POST',
+                url: 'YOUR URL/fetch_data',
+                data: {
+                    sheet_id: 'Your Sheet ID',
+                    sheet_name: 'Your Sheet Name'
+                },
+                success: function (result) {
+                    if (result.status == 1) {
+                        create_chart(result.labels, result.data, result.title);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                },
+            });
+        });
+
+        const create_chart = (labels, values, title) => {
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: title,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: values,
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {}
+            };
+
+            const myChart = new Chart(
+                document.getElementById('bar_chart'),
+                config
+            );
+        };
+
+    </script>
+
+</body>
+
+</html>

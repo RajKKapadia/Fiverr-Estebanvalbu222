@@ -30,49 +30,24 @@
 
     <script>
 
-        let labels, values;
-
-        $(document).ready(function () {
+        $(document).ready(() => {
             $.ajax({
                 type: 'POST',
-                url: 'YOUR URL/fetch_data',
+                url: 'http://localhost:5000/fetch_data',
                 data: {
-                    sheet_id: 'Your Sheet ID',
-                    sheet_name: 'Your Sheet Name'
+                    sheet_id: '1j-NLibOU0zoN99Q-UI0leGuLLjKVY3PIdOmMuwzjSa8',
+                    sheet_name: '2021'
                 },
-                success: function (result) {
+                success: (result) => {
                     if (result.status == 1) {
-                        create_chart(result.labels, result.data, result.title);
+                        console.log(result.data);
                     }
                 },
-                error: function (e) {
+                error: (e) => {
                     console.log(e);
                 },
             });
         });
-
-        const create_chart = (labels, values, title) => {
-            const data = {
-                labels: labels,
-                datasets: [{
-                    label: title,
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: values,
-                }]
-            };
-
-            const config = {
-                type: 'bar',
-                data: data,
-                options: {}
-            };
-
-            const myChart = new Chart(
-                document.getElementById('bar_chart'),
-                config
-            );
-        };
 
     </script>
 

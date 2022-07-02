@@ -20,26 +20,28 @@ const get_data = async (sheet_id, sheet_name) => {
 
         let rows = await sheet.getRows();
 
-        let labels = [];
-        let data = [];
-        let title;
+        let keys = Object.keys(rows['0'])
+        keys = keys.slice(3, keys.length);
 
-        for (let index = 0; index < rows.length; index++) {
-            const row = rows[index];
-            labels.push(row['label']);
-            data.push(row['data']);
-            if (row['title'] === undefined) {
-                continue;
-            } else {
-                title = row['title'];
-            }
-        };
+        let data = {};
+
+        keys.forEach(key => {
+            data[key] = [];
+        });
+
+        rows.forEach(row => {
+            keys.forEach(key => {
+                if (row[key] === undefined) {
+                    data[key].push('');
+                } else {
+                    data[key].push(row[key]);   
+                }
+            });
+        });
 
         return {
             status: 1,
-            labels: labels,
-            data: data,
-            title: title
+            data: data
         };
         
     } catch (error) {
